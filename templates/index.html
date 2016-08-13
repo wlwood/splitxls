@@ -1,0 +1,67 @@
+{% extends base.html %}
+
+{% block header %}
+<style type="text/css">
+#table_div {
+	margin-top:5%;
+	width:100%;
+	border: 1px solid #66CDAA;
+	display:None;
+}
+</style>
+{% end %}
+
+{% block content %}
+    <div style="margin-top:1%">
+        <div class="container">
+        	<div class="span2"></div>
+        	<div class="span8">
+	        	<div class="row-fluid">
+	        	    <label class="control-label">上传文件(上传上架表,结果会出现在下方)</label>
+	                <input id="input_upload_id" type="file" class="file">
+	        	</div>
+	        	<div class="row-fluid"  id="table_div">
+	        		<table class="table table=hover table-striped">
+	        			<thead>
+	        				<tr>
+	        					<td>类型</td>
+	        					<td>文件名</td>
+	        					<td>下载</td>
+	        				</tr>
+	        			</thead>
+						<tbody id="fileList">
+						</tbody>
+					</table>
+	        	</div>
+        	</div>
+        	<div class="span2"></div>
+        </div>
+    </div> 
+        <script>
+	    $("#input_upload_id").fileinput({
+	        uploadUrl: '/upload/', // you must set a valid URL here else you will get an error
+	        allowedFileExtensions : ['xlsx', 'xls'],
+	        overwriteInitial: false,
+	        maxFileSize: 999999,
+	        maxFilesNum: 10,
+	        slugCallback: function(filename) {
+	            return filename.replace('(', '_').replace(']', '_');
+	        }
+	        
+		});
+		$("#input_upload_id").on("fileuploaded",function(event, data, previewId, index){
+			result_dict = data.response
+	                $("#table_div").css("display", "block")
+                        //console.log(result_dict)
+                        if (result_dict.status == "True"){
+	                     $("#fileList").append("<tr><td>image_csv:</td><td>"+result_dict.image_csv_name+"</td><td><button class='btn'><a href='/download/?file_path="+result_dict.image_csv_filename+"'>下载</a></button></td></tr>"+
+	    "<tr><td>configure_csv:</td><td>"+result_dict.configure_name +"</td><td><button  class='btn'> <a href='/download/?file_path="+ result_dict.configure_filename +"'>下载</a></button></td></tr>");
+                         }else{
+                              $("#fileList").append("<tr><td> 转换失败::</td><td> "+ result_dict.message+"</td></tr>");
+                         }
+	    })
+
+		</script>
+{% end %}
+
+    
