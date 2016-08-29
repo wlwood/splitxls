@@ -41,6 +41,8 @@ class UpFileHandler(BaseHandler):
         except Exception ,e:
             print "upload file error, %s" %e 
         filename = str(upload_file_dict.get("filename",""))
+        isjewels = upload_file_dict.get("isjewels", 0)
+        #print "isjewels: ", isjewels
         if filename.endswith(".xls") or  filename.endswith(".xlsx"):
             pass
         else:
