@@ -148,7 +148,7 @@ class GetContent(object):
             categories = find_cate("jewels", line[name_i_dict.get("item_type")])
             attribute_set = "Jewels_" + str(categories).split("/")[-1]
             type_txt = "configurable"
-            sku = line[name_i_dict.get("sku")] + "_main"
+            sku = str(line[name_i_dict.get("sku")]) + "_main"
             name = line[name_i_dict.get("item_name")]
             price = line[name_i_dict.get(u"单价")]
             if name_i_dict.get("color_name") and name_i_dict.get("size_name"):
@@ -251,7 +251,7 @@ class GetContent(object):
             if line == self.content[-1]:
                 lastline = True
             current_n = self.content.index(line)
-            sku = sku_line[name_i_dict.get("sku")] + "_main" 
+            sku = str(sku_line[name_i_dict.get("sku")]) + "_main" 
             if lastline or self.content[current_n + 1][name_i_dict.get("parent_child")].lower() == "parent":
                 current_product_parent = False
             if not current_product_parent or lastline:
@@ -350,7 +350,7 @@ class GetContent(object):
             #print tmp_child_products_sku, current_product_parent
             if lastline or not current_product_parent:
                 if not parent_line: parent_line = line
-                parent_line[name_i_dict.get("sku")] = tmp_child_products_sku.split(",")[0] + "_main"
+                parent_line[name_i_dict.get("sku")] = str(tmp_child_products_sku.split(",")[0]) + "_main"
                 parent_line[name_i_dict.get(u"单价")] = parent_price
                 #parent_line[name_i_dict.get("item_name")] = parent_line[name_i_dict.get("")]
                 tmp_super_attribute_value = "|".join(tmp_super_attribute_value.split("|")[0:-1])
